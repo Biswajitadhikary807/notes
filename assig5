@@ -1,0 +1,60 @@
+// C program for generating a
+// random number in a given range.
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int * printRandoms(int lower, int upper,
+int count)
+{
+		int* A = (int*) malloc(count * sizeof(int));
+	for (int i = 0; i < count; i++) {
+		 A[i]= (rand() %
+		(upper - lower + 1)) + lower;
+	}
+	return A;
+}
+
+void count_sorting(int *A, int lower, int upper, int count) {
+    int *count_arr = (int *)calloc(upper - lower + 1, sizeof(int));
+    for (int i = 0; i < count; i++) {
+        count_arr[A[i] - lower] = count_arr[A[i] - lower] + 1; 
+    }
+    int *sorted_arr = (int *)malloc(count * sizeof(int));
+    int i = 0;
+    int j = 0;
+    while (i <= upper - lower) {
+        if (count_arr[i] > 0) {
+            sorted_arr[j] = i + lower;
+            count_arr[i] = count_arr[i] - 1;
+            j++;
+        } else {
+            i++;
+        }
+    }
+    for (int i = 0; i < count; i++) {
+        A[i] = sorted_arr[i];
+    }
+    for (int i = 0; i < count; i++) {
+        printf("\t%d", A[i]);
+    }
+}
+
+int main()
+{
+	int lower, upper ,count ;
+    printf("Enter lower value:");
+    scanf("%d", &lower);
+    printf("Enter upper value");
+    scanf("%d", &upper);
+    printf("Enter count");
+    scanf("%d", &count);
+	srand(time(0));
+
+	int *A=printRandoms(lower, upper, count);
+	for(int i=0;i<count;i++){
+    		printf("\t%d",A[i]);
+	}
+	printf("\nSorted array\n");
+    count_sorting(A,lower,upper,count);
+	return 0;
+}
